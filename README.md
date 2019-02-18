@@ -78,7 +78,7 @@ This is an updated list of the **main contributors** of the project. **We are lo
 Prerequisites
 ------------
 
-The current version of Deepgaze is based on **Python 2.7 and Python **. 
+The current version of Deepgaze is based on **Python 2.7 and Python 3.0+**. 
 
 We do not currently support all features for Python 3.0+ which we are working on. The features supported are on this branch. 
 
