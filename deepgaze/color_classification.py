@@ -107,7 +107,7 @@ class HistogramColorClassifier:
         @param method the comparison method.
             intersection: (default) the histogram intersection (Swain, Ballard)
         """
-        if cv2.__version__.split(".")[0] == '3':
+        if int(cv2.__version__.split(".")[0]) >= 3:
             if(method=="intersection"):
                 comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_INTERSECT)
             elif(method=="correlation"):
