@@ -11,6 +11,8 @@
 import numpy as np
 import cv2
 import sys
+import warnings
+
 
 class HistogramColorClassifier:
     """Classifier for comparing an image I with a model M. The comparison is based on color
@@ -29,24 +31,26 @@ class HistogramColorClassifier:
     called Histogram Backprojection performs this task efficiently in crowded scenes.
     """
 
-    def __init__(self, channels=[0, 1, 2], hist_size=[10, 10, 10], hist_range=[0, 256, 0, 256, 0, 256], hist_type='BGR'):
+    def __init__(self, Data=None,Names=None,channels=[0, 1, 2], hist_size=[10, 10, 10], hist_range=[0, 256, 0, 256, 0, 256], hist_type='BGR'):
         """Init the classifier.
 
         This class has an internal list containing all the models.
         it is possible to append new models. Using the default values
         it extracts a 3D BGR color histogram from the image, using
 	10 bins per channel.
-        @param channels list where we specify the index of the channel 
+        @param Data [List:Images]: Create an instance of classifier loaded with array of images
+        @param Names [List:Names]: Names of initialized Image models
+        @param channels [List:int]: where we specify the index of the channel 
            we want to compute a histogram for. For a grayscale image, 
            the list would be [0]. For all three (red, green, blue) channels, 
            the channels list would be [0, 1, 2].
-        @param hist_size number of bins we want to use when computing a histogram. 
+        @param hist_size [List:int] number of bins we want to use when computing a histogram. 
             It is a list (one value for each channel). Note: the bin sizes can 
             be different for each channel.
-        @param hist_range it is the min-max value of the values stored in the histogram.
+        @param hist_range [List:int] it is the min-max value of the values stored in the histogram.
             For three channels can be [0, 256, 0, 256, 0, 256], if there is only one
             channel can be [0, 256]
-        @param hsv_type Convert the input BGR frame in HSV or GRAYSCALE. before taking 
+        @param hsv_type [string] Convert the input BGR frame in HSV or GRAYSCALE. before taking 
             the histogram. The HSV representation can get more reliable results in 
             situations where light have a strong influence.
             BGR: (default) do not convert the input frame
@@ -59,7 +63,42 @@ class HistogramColorClassifier:
         self.hist_type = hist_type
         self.model_list = list()
         self.name_list = list()
-
+        
+        #Values cached after a comparison, only latest comparison values are cached and previous values are overwritten
+        self.comparison=False
+        self.best_match_name=" "
+        self.best_match_index=None
+        self.probability_array=[]
+        self.comparison_array=[]
+        
+        #Initialize model with images and names specified
+        self.InitializeModel(Data,Names)
+        
+        
+    def InitializeModel(self,Images,Names):
+        """This method allows HistogramColorClassifier instance to be loaded with required images and names.
+           @param Images: Images provided as argument with histogram color classifier instance
+           @param Names: Names provided as argument with histogram color classifier instance
+        """
+        
+        #Assign images and names initialized with instance if specified
+        if(Images is not None):
+            
+            #Check if names are assigned
+            if(Names is not None):
+                
+                #Size of name array and Data must be equal
+                if(len(Names)==len(Images)):
+                    
+                    for i in range(0,len(Images)):
+                        
+                        self.addModelHistogram(Images[i],name=Names[i])
+                    
+                else:
+                    
+                    warnings.warn("The size of Name array and Data array do not match , ignoring Names of Images")
+        
+        
     def addModelHistogram(self, model_frame, name=''):
         """Add the histogram to internal container. If the name of the object
            is already present then replace that histogram with a new one.
@@ -72,6 +111,11 @@ class HistogramColorClassifier:
         if(self.hist_type=='HSV'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2HSV)
         elif(self.hist_type=='GRAY'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2GRAY)
         elif(self.hist_type=='RGB'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2RGB)
+        elif(self.hist_type!='BGR'): 
+            
+            warnings.warn("Please specify valid histogram type") 
+            raise NameError
+            
         hist = cv2.calcHist([model_frame], self.channels, None, self.hist_size, self.hist_range)
         hist = cv2.normalize(hist, hist).flatten()
         if name == '': name = str(len(self.model_list))
@@ -80,6 +124,7 @@ class HistogramColorClassifier:
             self.name_list.append(name)
         else:
             for i in range(len(self.name_list)):
+                warnings.warn("The given name "+name+" has been used before , it is overwriting previous instace")
                 if self.name_list[i] == name:
                     self.model_list[i] = hist
                     break
@@ -131,7 +176,7 @@ class HistogramColorClassifier:
                 raise ValueError('[DEEPGAZE] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         return comparison
 
-    def returnHistogramComparisonArray(self, image, method='intersection'):
+    def returnHistogramComparisonArray(self, image, method='intersection',output_type=list):
         """Return the comparison array between all the model and the input image.
 
         The highest value represents the best match.
@@ -150,9 +195,20 @@ class HistogramColorClassifier:
         for model_hist in self.model_list:
             comparison_array[counter] = self.returnHistogramComparison(image_hist, model_hist, method=method)
             counter += 1
+            
+        self.comparison=True
+        self.probability_array=np.divide(comparison_array, np.sum(comparison_array))
+        self.best_match_index=np.argmax(comparison_array)
+        self.best_match_name=self.name_list[self.best_match_index]
+        self.comparison_array=comparison_array
+        
+        if(output_type==dict):
+            
+            comparison_array=dict(zip(self.name_list,comparison_array))
+        
         return comparison_array
 
-    def returnHistogramComparisonProbability(self, image, method='intersection'):
+    def returnHistogramComparisonProbability(self, image=None, method='intersection',output_type=list):
         """Return the probability distribution of the comparison between 
         all the model and the input image. The sum of the elements in the output
         array sum up to 1.
@@ -163,12 +219,31 @@ class HistogramColorClassifier:
             intersection: (default) the histogram intersection (Swain, Ballard)
         @return a numpy array containg the comparison value between each pair image-model
         """
-        comparison_array = self.returnHistogramComparisonArray(image=image, method=method)
-        #comparison_array[comparison_array < 0] = 0 #Remove negative values
-        comparison_distribution = np.divide(comparison_array, np.sum(comparison_array))
+        comparison_distribution=None
+        
+        #Check if comparison is performed to use cached values
+        if(self.comparison):
+            
+            comparison_distribution=self.probability_array
+            
+            if(output_type==dict):
+                
+                comparison_distribution=dict(zip(self.name_list,comparison_distribution))
+            
+        elif(image is not None):
+            
+           comparison_array = self.returnHistogramComparisonArray(image=image, method=method)
+           #comparison_array[comparison_array < 0] = 0 #Remove negative values
+           comparison_distribution = np.divide(comparison_array, np.sum(comparison_array))
+           
+        else:
+            
+           warnings.warn("Classifier did not recieve an image instance")
+            
+            
         return comparison_distribution
 
-    def returnBestMatchIndex(self, image, method='intersection'):
+    def returnBestMatchIndex(self, image=None, method='intersection'):
         """Return the index of the best match between the image and the internal models.
 
         @param image the image to compare
@@ -176,10 +251,25 @@ class HistogramColorClassifier:
             intersection: (default) the histogram intersection (Swain, Ballard)
         @return a numpy array containg the comparison value between each pair image-model
         """
-        comparison_array = self.returnHistogramComparisonArray(image, method=method)
-        return np.argmax(comparison_array)
+        Index=None
+        
+        #Check if comparison is performed to use cached values
+        if(self.comparison):
+            
+            Index=self.best_match_index
+            
+        elif(image is not None):
+            
+            comparison_array = self.returnHistogramComparisonArray(image, method=method)
+            Index=np.argmax(comparison_array)
+            
+        else:
+            
+            warnings.warn("Classifier did not recieve an image instance")
+            
+        return Index
 
-    def returnBestMatchName(self, image, method='intersection'):
+    def returnBestMatchName(self, image=None, method='intersection'):
         """Return the name of the best match between the image and the internal models.
 
         @param image the image to compare
@@ -187,9 +277,24 @@ class HistogramColorClassifier:
             intersection: (default) the histogram intersection (Swain, Ballard)
         @return a string representing the name of the best matching model
         """
-        comparison_array = self.returnHistogramComparisonArray(image, method=method)
-        arg_max = np.argmax(comparison_array)
-        return self.name_list[arg_max]
+        name=None
+        
+        #Check if comparison is performed to use cached values
+        if(self.comparison):
+            
+            name=self.best_match_name
+            
+        elif(image is not None):
+            
+            comparison_array = self.returnHistogramComparisonArray(image, method=method)
+            arg_max = np.argmax(comparison_array)
+            name=self.name_list[arg_max]
+            
+        else:
+            
+            warnings.warn("Classifier did not recieve an image instance")
+        
+        return name
 
     def returnNameList(self):
         """Return a list containing all the names stored in the model.
@@ -204,4 +309,7 @@ class HistogramColorClassifier:
         @return: an integer representing the number of elements stored
         """
         return len(self.model_list)
+    
+        
+        
 
