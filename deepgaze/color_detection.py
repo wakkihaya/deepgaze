@@ -40,6 +40,7 @@ class BackProjectionColorDetector:
         The template can be a spedific region of interest of the main
         frame or a representative color scheme to identify. the template
         is internally stored as an HSV image.
+        
         @param frame the template to use in the algorithm
         """      
         self.template_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -123,6 +124,7 @@ class MultiBackProjectionColorDetector:
         The template can be a spedific region of interest of the main
         frame or a representative color scheme to identify. the template
         is internally stored as an HSV image.
+        
         @param frame the template to use in the algorithm
         """ 
         for frame in frame_list:    
@@ -213,6 +215,7 @@ class RangeColorDetector:
         initialise the vectors in this range it is possible to write:       
         min_range = numpy.array([0, 48, 80], dtype = "uint8")
         max_range = numpy.array([20, 255, 255], dtype = "uint8")
+        
         @param range_min the minimum HSV value to use as filer (numpy.array)
         @param range_max the maximum HSV value to use as filter (numpy.array)
         """
@@ -225,6 +228,7 @@ class RangeColorDetector:
  
         The skin in channel H is characterized by values between 0 and 50, 
         in the channel S from 0.23 to 0.68 (Asian and Caucasian).
+        
         @param range_min the minimum HSV value to use as filer
         @param range_max the maximum HSV value to use as filter
         """
@@ -259,6 +263,7 @@ class RangeColorDetector:
         This version of the function does not use the blur and bitwise 
         operations, then the resulting frame contains white pixels
         in correspondance of the skin found during the searching process.
+        
         @param frame the original frame (color)
         """
         #Convert to HSV and eliminate pixels outside the range
