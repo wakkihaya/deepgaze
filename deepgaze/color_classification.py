@@ -96,7 +96,7 @@ class HistogramColorClassifier:
                     
                 else:
                     
-                    warnings.warn("The size of Name array and Data array do not match , ignoring Names of Images")
+                    warnings.warn("[DEEPGAZE][WARNING] The size of Name array and Data array do not match , ignoring Names of Images")
         
         
     def addModelHistogram(self, model_frame, name=''):
@@ -113,7 +113,7 @@ class HistogramColorClassifier:
         elif(self.hist_type=='RGB'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2RGB)
         elif(self.hist_type!='BGR'): 
             
-            warnings.warn("Please specify valid histogram type") 
+            warnings.warn("[DEEPGAZE][ERROR] Please specify valid histogram type") 
             raise NameError
             
         hist = cv2.calcHist([model_frame], self.channels, None, self.hist_size, self.hist_range)
@@ -124,7 +124,7 @@ class HistogramColorClassifier:
             self.name_list.append(name)
         else:
             for i in range(len(self.name_list)):
-                warnings.warn("The given name "+name+" has been used before , it is overwriting previous instace")
+                warnings.warn("[DEEPGAZE][WARNING] The given name "+name+" has been used before , it is overwriting previous instace")
                 if self.name_list[i] == name:
                     self.model_list[i] = hist
                     break
@@ -162,7 +162,7 @@ class HistogramColorClassifier:
             elif(method=="bhattacharyya"):
                 comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_BHATTACHARYYA)
             else:
-                raise ValueError('[DEEPGAZE] color_classification.py: the method specified ' + str(method) + ' is not supported.')
+                raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         else:
             if(method=="intersection"):
                 comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_INTERSECT)
@@ -173,7 +173,7 @@ class HistogramColorClassifier:
             elif(method=="bhattacharyya"):
                 comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_BHATTACHARYYA)
             else:
-                raise ValueError('[DEEPGAZE] color_classification.py: the method specified ' + str(method) + ' is not supported.')
+                raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         return comparison
 
     def returnHistogramComparisonArray(self, image, method='intersection',output_type=list):
@@ -238,7 +238,7 @@ class HistogramColorClassifier:
            
         else:
             
-           warnings.warn("Classifier did not recieve an image instance")
+           warnings.warn("[DEEPGAZE][WARNING] Classifier did not recieve an image instance")
             
             
         return comparison_distribution
@@ -265,7 +265,7 @@ class HistogramColorClassifier:
             
         else:
             
-            warnings.warn("Classifier did not recieve an image instance")
+            warnings.warn("[DEEPGAZE][WARNING] Classifier did not recieve an image instance")
             
         return Index
 
@@ -292,7 +292,7 @@ class HistogramColorClassifier:
             
         else:
             
-            warnings.warn("Classifier did not recieve an image instance")
+            warnings.warn("[DEEPGAZE][WARNING] Classifier did not recieve an image instance")
         
         return name
 
