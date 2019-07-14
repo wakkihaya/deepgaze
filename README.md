@@ -47,6 +47,7 @@ This is an updated list of the **main contributors** of the project. **We are lo
 - [Joel Gooch](https://www.linkedin.com/in/joel-gooch-001458132/?ppe=1): head pose estimation
 - [Ishit Mehta](https://github.com/ishit): CNN-cascade face detection
 - [Luca Surace](https://github.com/lukeoverride): Haar-cascade multi-face detection, emotion recognition
+- [Hrishikesh Kamath](https://github.com/kamathhrishi): version 2.0 porting, notebooks, test scripts
 
 Prerequisites
 ------------
