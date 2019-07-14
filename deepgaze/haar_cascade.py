@@ -14,8 +14,6 @@ import os.path
 
 
 class haarCascade:
-
-
     def __init__(self, frontalFacePath, profileFacePath):
 
         self.is_face_present = False
@@ -39,7 +37,6 @@ class haarCascade:
 
         self._frontalCascade = cv2.CascadeClassifier(frontalFacePath)
         self._profileCascade = cv2.CascadeClassifier(profileFacePath)
-
 
     ##
     # Find a face (frontal or profile) in the input image.
@@ -80,9 +77,7 @@ class haarCascade:
         if(lastFaceType == 4): order = (4, 1, 2, 3, 5)
         if(lastFaceType == 5): order = (5, 1, 2, 3, 4)
 
-
         for position in order:
-
             #Cascade: frontal faces
             if(runFrontal==True and position==1):
                 self._findFrontalFace(inputImg, frontalScaleFactor, minSizeX, minSizeY)
@@ -140,13 +135,17 @@ class haarCascade:
     #
     def _findFrontalFace(self, inputImg, scaleFactor=1.1, minSizeX=30, minSizeY=30, minNeighbors=4):
 
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+        
         #Cascade: frontal faces
         faces = self._frontalCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+            flags=flag
         )
 
         if(len(faces) == 0):
@@ -186,13 +185,17 @@ class haarCascade:
     #           
     def _findProfileFace(self, inputImg, scaleFactor=1.1, minSizeX=30, minSizeY=30, minNeighbors=4):
 
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+        
         #Cascade: left profile
         faces = self._profileCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+            flags=flag
         )
 
         if(len(faces) == 0):
@@ -224,9 +227,4 @@ class haarCascade:
              self.face_w = faces[max_index][2]
              self.face_h = faces[max_index][3]
              self.is_face_present = True
-             return (faces[max_index][0], faces[max_index][1], faces[max_index][2], faces[max_index][3]) 
-
-
-
-
-
+             return (faces[max_index][0], faces[max_index][1], faces[max_index][2], faces[max_index][3])

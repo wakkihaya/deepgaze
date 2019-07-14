@@ -20,14 +20,13 @@ try:
     imp.find_module('dlib')
     IS_DLIB_INSTALLED = True
     import dlib
-    print('[DEEPGAZE] head_pose_estimation.py: the dlib library is installed.')
+    print('[DEEPGAZE][WARNING] head_pose_estimation.py: the dlib library is installed.')
 except ImportError:
     IS_DLIB_INSTALLED = False
-    print('[DEEPGAZE] head_pose_estimation.py: the dlib library is not installed.')
+    print('[DEEPGAZE][WARNING] head_pose_estimation.py: the dlib library is not installed.')
 
 #Enbale if you need printing utilities
 DEBUG = False
-
 
 class CnnHeadPoseEstimator:
     """ Head pose estimation class which uses convolutional neural network

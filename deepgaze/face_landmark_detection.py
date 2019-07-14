@@ -25,17 +25,13 @@ LEFT_TEAR = 42
 LEFT_EYE = 45
 STOMION = 62
 
-
 class faceLandmarkDetection:
-
-
     def __init__(self, landmarkPath):
         #Check if the file provided exist
         if(os.path.isfile(landmarkPath)==False):
             raise ValueError('haarCascade: the files specified do not exist.')
 
         self._predictor = dlib.shape_predictor(landmarkPath)
-
 
     ##
     # Find landmarks in the image provided
@@ -45,7 +41,6 @@ class faceLandmarkDetection:
             #Creating a dlib rectangle and finding the landmarks
             dlib_rectangle = dlib.rectangle(left=int(roiX), top=int(roiY), right=int(roiW), bottom=int(roiH))
             dlib_landmarks = self._predictor(inputImg, dlib_rectangle)
-
             #It selects only the landmarks that
             # have been indicated in the input parameter "points_to_return".
             #It can be used in solvePnP() to estimate the 3D pose.
@@ -54,18 +49,7 @@ class faceLandmarkDetection:
             for point in points_to_return:
                 self._landmarks[counter] = [dlib_landmarks.parts()[point].x, dlib_landmarks.parts()[point].y]
                 counter += 1
-
-
             #Estimation of the eye dimesnion
             #self._right_eye_w = self._landmark_matrix[RIGHT_TEAR].item((0,0)) - self._landmark_matrix[RIGHT_EYE].item((0,0)) 
             #self._left_eye_w = self._landmark_matrix[LEFT_EYE].item((0,0)) - self._landmark_matrix[LEFT_TEAR].item((0,0))
-
-
             return self._landmarks
-
-
-
-
-
-
-

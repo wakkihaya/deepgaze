@@ -13,7 +13,7 @@ import cv2
 import sys
 
 (MAJOR, MINOR, _) = cv2.__version__.split('.')
-VERSION_ALERT = '[DEEPGAZE] mask_analysis.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
+VERSION_ALERT = '[DEEPGAZE][ERROR] mask_analysis.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
 
 class BinaryMaskAnalyser:
     """This class analyses binary masks, like the ones returned by
