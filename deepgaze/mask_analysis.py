@@ -12,6 +12,9 @@ import numpy as np
 import cv2
 import sys
 
+(MAJOR, MINOR, _) = cv2.__version__.split('.')
+VERSION_ALERT = '[DEEPGAZE] mask_analysis.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
+
 class BinaryMaskAnalyser:
     """This class analyses binary masks, like the ones returned by
        the color detection classes.
@@ -33,7 +36,9 @@ class BinaryMaskAnalyser:
         mask = np.copy(mask) #doing a copy otherwise findContours modify the original(?)
         if(len(mask.shape) == 3):
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-        contours, hierarchy = cv2.findContours(mask, 1, 2)
+        if(MAJOR=='2'): contours, hierarchy = cv2.findContours(mask, 1, 2)
+        elif(MAJOR=='3'): _, contours, hierarchy = cv2.findContours(mask, 1, 2)
+        else: raise ValueError(VERSION_ALERT)        
         if(hierarchy is None): return 0
         else: return len(hierarchy)
 
@@ -49,7 +54,9 @@ class BinaryMaskAnalyser:
         mask = np.copy(mask)
         if(len(mask.shape) == 3):
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-        contours, hierarchy = cv2.findContours(mask, 1, 2)
+        if(MAJOR=='2'): contours, hierarchy = cv2.findContours(mask, 1, 2)
+        elif(MAJOR=='3'): _, contours, hierarchy = cv2.findContours(mask, 1, 2)
+        else: raise ValueError(VERSION_ALERT)
         area_array = np.zeros(len(contours)) #contains the area of the contours
         counter = 0
         for cnt in contours:   
@@ -79,7 +86,9 @@ class BinaryMaskAnalyser:
         mask = np.copy(mask)
         if(len(mask.shape) == 3):
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-        contours, hierarchy = cv2.findContours(mask, 1, 2)
+        if(MAJOR=='2'): contours, hierarchy = cv2.findContours(mask, 1, 2)
+        elif(MAJOR=='3'): _, contours, hierarchy = cv2.findContours(mask, 1, 2)
+        else: raise ValueError(VERSION_ALERT)
         area_array = np.zeros(len(contours)) #contains the area of the contours
         counter = 0
         for cnt in contours:   
@@ -162,7 +171,9 @@ class BinaryMaskAnalyser:
         mask = np.copy(mask)
         if(len(mask.shape) == 3):
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-        contours, hierarchy = cv2.findContours(mask, 1, 2)
+        if(MAJOR=='2'): contours, hierarchy = cv2.findContours(mask, 1, 2)
+        elif(MAJOR=='3'): _, contours, hierarchy = cv2.findContours(mask, 1, 2)
+        else: raise ValueError(VERSION_ALERT)
         area_array = np.zeros(len(contours)) #contains the area of the contours
         counter = 0
         for cnt in contours:   
@@ -195,7 +206,9 @@ class BinaryMaskAnalyser:
         mask = np.copy(mask)
         if(len(mask.shape) == 3):
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-        contours, hierarchy = cv2.findContours(mask, 1, 2)
+        if(MAJOR=='2'): contours, hierarchy = cv2.findContours(mask, 1, 2)
+        elif(MAJOR=='3'): _, contours, hierarchy = cv2.findContours(mask, 1, 2)
+        else: raise ValueError(VERSION_ALERT)
         area_array = np.zeros(len(contours)) #contains the area of the contours
         counter = 0
         for cnt in contours:   
