@@ -22,9 +22,9 @@ Deepgaze is based on OpenCV and Tensorflow, some of the best libraries in comput
 
 This library is the result of a recent work, **if you use the library in academic work please cite the following paper**:
 
-```
+
 Patacchiola, M., & Cangelosi, A. (2017). *Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods*. Pattern Recognition, 71, 132-143, http://dx.doi.org/10.1016/j.patcog.2017.06.009.
-```
+
 
 Why should I use Deepgaze?
 --------------------------
