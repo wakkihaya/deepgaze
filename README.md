@@ -1,38 +1,9 @@
 Updates
 ----------
 
-**Update 10/06/2017** The PDF of the article *"Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods"* is available for **free download** in the next 50 days using [this special link](https://authors.elsevier.com/a/1VBdC77nKOnOt)
+**Update 14/07/2019** The work on branch 2.0 is moving forward. Deepgaze 2.0 now supports Python 3.x and both OpenCV 2.x and 3.x.
 
-**Update 04/06/2017** Article *"Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods"* have been accepted for publication in Pattern Recogntion (Elsevier). The Deepgaze CNN head pose estimator module is based on this work.
-
-**Update 31/05/2017** Implementation of the new package [saliency_map.py](./deepgaze/saliency_map.py). The package contains an implementation of the [FASA](http://ivrl.epfl.ch/research/saliency/fast_saliency) algorithm for saliency detection [[example]](./examples/ex_fasa_saliency_map/ex_fasa_saliency_map_images.py) [[wiki]](http://www.scholarpedia.org/article/Saliency_map)
-
-**Update 22/03/2017** Fixed a bug in mask_analysis.py and almost completed a more robust version of the CNN head pose estimator.
-
-**Update 21/11/2016**
-New package [color_classification.py](./deepgaze/color_classification.py). The package contains an implementation of the histogram intersection algorithm for colour classification [[example]](./examples/ex_color_classification_images/ex_color_classification_image.py). Read more on [my blog post](https://mpatacchiola.github.io/blog/2016/11/12/the-simplest-classifier-histogram-intersection.html).
-
-**Update 04/11/2016**
-New package [motion_tracking.py](./deepgaze/motion_tracking.py). The package contains an implementation of [Particle Filter](https://en.wikipedia.org/wiki/Particle_filter), which can be used to follow a target in presence of noisy measurements [[example]](./examples/ex_particle_filter_object_tracking_video/ex_particle_filter_object_tracking_video.py) [[video]](https://www.youtube.com/watch?v=KTxVBN5-KpE)
-
-**Update 01/11/2016**
-Comparison of three different motion detection algorithms [[example]](./examples/ex_motion_detectors_comparison_video/ex_motion_detectors_comparison_video.py) [[video]](https://www.youtube.com/watch?v=XmI2kE2hUgE)
-
-**Update 28/10/2016**
-New package [motion_detection.py](./deepgaze/motion_detection.py). Using the classes in this package it is possible to track moving objects through [background subtraction](https://en.wikipedia.org/wiki/Background_subtraction). Possible applications of this algorithm are people detection, vehicle detection and tracking [[example]](./examples/ex_diff_motion_detection_video/ex_diff_motion_detection.py)
-
-**Update 21/10/2016**:
-New package [color_detection.py](./deepgaze/color_detection.py) added. Using the classes inside this package it is possible to detect colors [[example]](./examples/ex_color_detection_image/ex_color_detection_image.py), skin [[example]](./examples/ex_skin_detection_images/ex_skin_detection_images.py) and faces [[example]](./examples/ex_face_center_color_detection/ex_face_center_color_detection.py)
-
-**Update 19/10/2016**:
-Working example on how to use CNNs for the pitch estimation [[code]](./examples/ex_cnn_headp_pose_estimation_images/ex_cnn_head_pose_estimation_images_pitch.py)
-Working example on how to use CNNs for both yaw and pitch estimation [[code]](./examples/ex_cnn_headp_pose_estimation_images/ex_cnn_head_pose_estimation_images_pitch_yaw.py)
-
-**Update 05/10/2016**:
-Working example on how to use CNNs for head pose estimation (for the moment only yaw angle) [[code]](./examples/ex_cnn_headp_pose_estimation_images/ex_cnn_head_pose_estimation_images.py)
-
-**Update 20/09/2016**:
-Work in progress. The code provided at the moment does not still implement gaze detection. There is a beta version of the class which implements the CNN head pose estimator of the yaw angle [[code]](https://github.com/mpatacchiola/deepgaze/blob/master/deepgaze/head_pose_estimation.py). You can use it loading the variables stored in this [[file]](https://github.com/mpatacchiola/deepgaze/blob/master/etc/tensorflow/head_pose/yaw/cnn_cccdd_30k).
+**Update 12/07/2019** The preprint PDF of the article *"Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods"* is available for **free download** at [this address](https://pearl.plymouth.ac.uk/bitstream/handle/10026.1/9497/Patacchiola-Cangelosi-PR-postprint.pdf?sequence=3&isAllowed=n)
 
 
 What is Deepgaze?
@@ -51,7 +22,9 @@ Deepgaze is based on OpenCV and Tensorflow, some of the best libraries in comput
 
 This library is the result of a recent work, **if you use the library in academic work please cite the following paper**:
 
-Patacchiola, M., & Cangelosi, A. (2017). *Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods*. Pattern Recognition, http://dx.doi.org/10.1016/j.patcog.2017.06.009.
+```
+Patacchiola, M., & Cangelosi, A. (2017). *Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods*. Pattern Recognition, 71, 132-143, http://dx.doi.org/10.1016/j.patcog.2017.06.009.
+```
 
 Why should I use Deepgaze?
 --------------------------
@@ -73,15 +46,13 @@ This is an updated list of the **main contributors** of the project. **We are lo
 - [Massimiliano Patacchiola](http://mpatacchiola.github.io/): project leader and main contributor
 - [Joel Gooch](https://www.linkedin.com/in/joel-gooch-001458132/?ppe=1): head pose estimation
 - [Ishit Mehta](https://github.com/ishit): CNN-cascade face detection
-- [Luca Surace](https://github.com/lukeoverride): Haar-cascade multi-face detection
+- [Luca Surace](https://github.com/lukeoverride): Haar-cascade multi-face detection, emotion recognition
 
 Prerequisites
 ------------
 
-The current version of Deepgaze is based on **Python 2.7 and Python 3.0+**. 
-
-We do not currently support all features for Python 3.0+ which we are working on. The features supported are on this branch. 
-
+Deepgaze 2.0 is based on **Python 2.7 / Python 3.0+**. 
+ 
 To use the libray you have to install:
 
 - Numpy [[link]](http://www.numpy.org/)
@@ -96,7 +67,7 @@ sudo pip install numpy
 sudo apt-get install libopencv-dev python-opencv
 ```
 
-- Tensorflow [[link]](https://www.tensorflow.org/)
+- Tensorflow 0.x and 1.x (not compatible with 2.x) [[link]](https://www.tensorflow.org/)
 
 ```shell
 sudo pip install tensorflow
@@ -115,10 +86,16 @@ Download the repository from [[here]](https://github.com/mpatacchiola/deepgaze/a
 git clone https://github.com/mpatacchiola/deepgaze.git
 ```
 
-To install the package you have to enter in the Deepgaze folder and run the setup.py script (it may require root privileges):
+If you want to install Deepgaze 2.0 simply checkout the branch:
+
+```
+cd deepgaze
+git checkout 2.0
+```
+
+To install the package you have to enter in the main folder and run the setup.py script (it may require root privileges):
 
 ```shell
-cd deepgaze
 sudo python setup.py install
 ```
 
