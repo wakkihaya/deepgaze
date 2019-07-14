@@ -14,7 +14,7 @@ import sys
 import warnings
 
 (MAJOR, MINOR, _) = cv2.__version__.split('.')
-VERSION_ALERT = '[DEEPGAZE] mask_analysis.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
+VERSION_ALERT = '[DEEPGAZE][ERROR] color_classification.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
 
 class HistogramColorClassifier:
     """Classifier for comparing an image I with a model M. The comparison is based on color
@@ -113,8 +113,7 @@ class HistogramColorClassifier:
         if(self.hist_type=='HSV'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2HSV)
         elif(self.hist_type=='GRAY'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2GRAY)
         elif(self.hist_type=='RGB'): model_frame = cv2.cvtColor(model_frame, cv2.COLOR_BGR2RGB)
-        elif(self.hist_type!='BGR'): 
-            
+        elif(self.hist_type!='BGR'):            
             warnings.warn("[DEEPGAZE][ERROR] Please specify valid histogram type") 
             raise NameError
             
@@ -126,7 +125,8 @@ class HistogramColorClassifier:
             self.name_list.append(name)
         else:
             for i in range(len(self.name_list)):
-                warnings.warn("[DEEPGAZE][WARNING] The given name "+name+" has been used before , it is overwriting previous instace")
+                warnings.warn("[DEEPGAZE][WARNING] The given name " + name + 
+                              " has been used before , it is overwriting previous instace")
                 if self.name_list[i] == name:
                     self.model_list[i] = hist
                     break
@@ -154,40 +154,28 @@ class HistogramColorClassifier:
         @param method the comparison method.
             intersection: (default) the histogram intersection (Swain, Ballard)
         """
-        if int(cv2.__version__.split(".")[0]) >= 3:
-            if(method=="intersection"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_INTERSECT)
-            elif(method=="correlation"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_CORREL)
-            elif(method=="chisqr"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_CHISQR)
-            elif(method=="bhattacharyya"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.HISTCMP_BHATTACHARYYA)
-            else:
-                raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
+        if(method=="intersection"):
+            if(MAJOR=='2'): flag = cv2.cv.CV_COMP_INTERSECT
+            elif(MAJOR=='3'): flag = cv2.HISTCMP_INTERSECT
+            else: raise ValueError(VERSION_ALERT)
+            comparison = cv2.compareHist(hist_1, hist_2, flag)
+        elif(method=="correlation"):
+            if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CORREL
+            elif(MAJOR=='3'): flag = cv2.HISTCMP_CORREL
+            else: raise ValueError(VERSION_ALERT)
+            comparison = cv2.compareHist(hist_1, hist_2, flag)
+        elif(method=="chisqr"):
+            if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CHISQR
+            elif(MAJOR=='3'): flag = cv2.HISTCMP_CHISQR
+            else: raise ValueError(VERSION_ALERT)
+            comparison = cv2.compareHist(hist_1, hist_2, flag)
+        elif(method=="bhattacharyya"):
+            if(MAJOR=='2'): flag = cv2.cv.CV_COMP_BHATTACHARYYA
+            elif(MAJOR=='3'): flag = cv2.HISTCMP_BHATTACHARYYA
+            else: raise ValueError(VERSION_ALERT)
+            comparison = cv2.compareHist(hist_1, hist_2, flag)
         else:
-            if(method=="intersection"):
-                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_INTERSECT
-                elif(MAJOR=='3'): flag = cv2.HISTCMP_INTERSECT
-                else: raise ValueError(VERSION_ALERT)
-                comparison = cv2.compareHist(hist_1, hist_2, flag)
-            elif(method=="correlation"):
-                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CORREL
-                elif(MAJOR=='3'): flag = cv2.HISTCMP_CORREL
-                else: raise ValueError(VERSION_ALERT)
-                comparison = cv2.compareHist(hist_1, hist_2, flag)
-            elif(method=="chisqr"):
-                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CHISQR
-                elif(MAJOR=='3'): flag = cv2.HISTCMP_CHISQR
-                else: raise ValueError(VERSION_ALERT)
-                comparison = cv2.compareHist(hist_1, hist_2, flag)
-            elif(method=="bhattacharyya"):
-                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_BHATTACHARYYA
-                elif(MAJOR=='3'): flag = cv2.HISTCMP_BHATTACHARYYA
-                else: raise ValueError(VERSION_ALERT)
-                comparison = cv2.compareHist(hist_1, hist_2, flag)
-            else:
-                raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
+            raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         return comparison
 
     def returnHistogramComparisonArray(self, image, method='intersection',output_type=list):
@@ -295,19 +283,13 @@ class HistogramColorClassifier:
         
         #Check if comparison is performed to use cached values
         if(self.comparison):
-            
             name=self.best_match_name
-            
         elif(image is not None):
-            
             comparison_array = self.returnHistogramComparisonArray(image, method=method)
             arg_max = np.argmax(comparison_array)
             name=self.name_list[arg_max]
-            
         else:
-            
             warnings.warn("[DEEPGAZE][WARNING] Classifier did not recieve an image instance")
-        
         return name
 
     def returnNameList(self):
@@ -323,7 +305,3 @@ class HistogramColorClassifier:
         @return: an integer representing the number of elements stored
         """
         return len(self.model_list)
-    
-        
-        
-
