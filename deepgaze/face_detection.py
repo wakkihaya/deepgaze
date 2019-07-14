@@ -13,6 +13,8 @@ import cv2
 import sys
 import os.path
 
+(MAJOR, MINOR, _) = cv2.__version__.split('.')
+VERSION_ALERT = '[DEEPGAZE][ERROR] face_detection.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
 
 class HaarFaceDetector:
     """Implementation of the OpenCV Viola Johnes algorithm for face detection.
@@ -59,7 +61,7 @@ class HaarFaceDetector:
         self.face_w = 0
 
         if(os.path.isfile(frontalFacePath) == False and os.path.isfile(profileFacePath)==False):
-            raise ValueError('[DEEPGAZE] haarCascade: the files specified do not exist.') 
+            raise ValueError('[DEEPGAZE][ERROR] haarCascade: the files specified do not exist.') 
 
         self._frontalFacePath = frontalFacePath
         self._profileFacePath = profileFacePath
@@ -234,13 +236,17 @@ class HaarFaceDetector:
         @param inputImg the image where the cascade will be called
         """
 
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+            
         #Cascade: frontal faces
         faces = self._frontalCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+            flags=flag
         )
 
         if(len(faces) == 0):
@@ -280,14 +286,17 @@ class HaarFaceDetector:
 
         @param inputImg the image where the cascade will be called
         """
-
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+        
         #Cascade: left profile
         faces = self._profileCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+            flags=flag
         )
 
         if(len(faces) == 0):
@@ -327,13 +336,17 @@ class HaarFaceDetector:
         @param inputImg the image where the cascade will be called
         """
 
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+        
         # Cascade: frontal faces
         faces = self._frontalCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.CASCADE_SCALE_IMAGE
+            flags=flag
         )
 
         if (len(faces) == 0):
@@ -353,13 +366,17 @@ class HaarFaceDetector:
         @param inputImg the image where the cascade will be called
         """
 
+        if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
+        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
+        else: raise ValueError(VERSION_ALERT)
+        
         # Cascade: left profile
         faces = self._profileCascade.detectMultiScale(
             inputImg,
             scaleFactor=scaleFactor,
             minNeighbors=minNeighbors,
             minSize=(minSizeX, minSizeY),
-            flags=cv2.CASCADE_SCALE_IMAGE
+            flags=flag
         )
 
         if (len(faces) == 0):
