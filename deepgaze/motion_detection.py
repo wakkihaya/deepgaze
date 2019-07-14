@@ -12,6 +12,9 @@ import numpy as np
 import cv2
 import sys
 
+(MAJOR, MINOR, _) = cv2.__version__.split('.')
+VERSION_ALERT = '[DEEPGAZE][ERROR] motion_detection.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
+
 class DiffMotionDetector:
     """Motion is detected through the difference between 
        the background (static) and the foregroung (dynamic).
@@ -108,8 +111,9 @@ class MogMotionDetector:
             In other words, it is the minimum prior probability that the background is in the scene.
         @param noise specifies the noise strenght
         """
-        self.BackgroundSubtractorMOG = cv2.BackgroundSubtractorMOG(history, numberMixtures, backgroundRatio, noise)
-
+        if(MAJOR=='2'): self.BackgroundSubtractorMOG = cv2.BackgroundSubtractorMOG(history, numberMixtures, backgroundRatio, noise)
+        elif(MAJOR=='3'): self.BackgroundSubtractorMOG = cv2.BackgroundSubtractor(history, numberMixtures, backgroundRatio, noise)
+        else: raise ValueError(VERSION_ALERT)
 
     def returnMask(self, foreground_image):
         """Return the binary image after the detection process
@@ -137,6 +141,7 @@ class Mog2MotionDetector:
         """Init the color detector object.
 
         """
+        #This call stays the same in OpenCV 2.x and 3.x
         self.BackgroundSubtractorMOG2 = cv2.BackgroundSubtractorMOG2()
 
 

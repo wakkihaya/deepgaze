@@ -59,19 +59,27 @@ To use the libray you have to install:
 - Numpy [[link]](http://www.numpy.org/)
 
 ```shell
-sudo pip install numpy
+pip install numpy
 ```
 
 - OpenCV  [[link]](http://opencv.org/)
+
+installation with apt-get:
 
 ```shell
 sudo apt-get install libopencv-dev python-opencv
 ```
 
+alternatevely you can explicitly install OpenCV 3.x with pip:
+
+```shell
+python3 -m pip install --user opencv-python==3.4.5.20
+```
+
 - Tensorflow 0.x and 1.x (not compatible with 2.x) [[link]](https://www.tensorflow.org/)
 
 ```shell
-sudo pip install tensorflow
+pip install tensorflow
 ```
 
 Some examples may require additional libraries:
