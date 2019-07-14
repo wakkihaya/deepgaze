@@ -13,6 +13,8 @@ import cv2
 import sys
 import warnings
 
+(MAJOR, MINOR, _) = cv2.__version__.split('.')
+VERSION_ALERT = '[DEEPGAZE] mask_analysis.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
 
 class HistogramColorClassifier:
     """Classifier for comparing an image I with a model M. The comparison is based on color
@@ -165,13 +167,25 @@ class HistogramColorClassifier:
                 raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         else:
             if(method=="intersection"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_INTERSECT)
+                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_INTERSECT
+                elif(MAJOR=='3'): flag = cv2.HISTCMP_INTERSECT
+                else: raise ValueError(VERSION_ALERT)
+                comparison = cv2.compareHist(hist_1, hist_2, flag)
             elif(method=="correlation"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_CORREL)
+                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CORREL
+                elif(MAJOR=='3'): flag = cv2.HISTCMP_CORREL
+                else: raise ValueError(VERSION_ALERT)
+                comparison = cv2.compareHist(hist_1, hist_2, flag)
             elif(method=="chisqr"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_CHISQR)
+                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CHISQR
+                elif(MAJOR=='3'): flag = cv2.HISTCMP_CHISQR
+                else: raise ValueError(VERSION_ALERT)
+                comparison = cv2.compareHist(hist_1, hist_2, flag)
             elif(method=="bhattacharyya"):
-                comparison = cv2.compareHist(hist_1, hist_2, cv2.cv.CV_COMP_BHATTACHARYYA)
+                if(MAJOR=='2'): flag = cv2.cv.CV_COMP_BHATTACHARYYA
+                elif(MAJOR=='3'): flag = cv2.HISTCMP_BHATTACHARYYA
+                else: raise ValueError(VERSION_ALERT)
+                comparison = cv2.compareHist(hist_1, hist_2, flag)
             else:
                 raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
         return comparison
