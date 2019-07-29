@@ -12,6 +12,8 @@ import cv2
 import sys
 import os.path
 
+(MAJOR, MINOR, _) = cv2.__version__.split('.')
+VERSION_ALERT = '[DEEPGAZE][ERROR] haar_cascade.py: the version ' + MAJOR + ' of OpenCV is not compatible with Deepgaze 2.0'
 
 class haarCascade:
     def __init__(self, frontalFacePath, profileFacePath):
