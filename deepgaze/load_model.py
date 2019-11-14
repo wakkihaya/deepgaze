@@ -7,7 +7,7 @@ import os
 import shutil
 
 
-class Load_Model:
+class LoadModel:
     """Module that allows users to download and load deepgaze pre-trained models. This allows the required 
        models to be downloaded on request when required."""
 
@@ -29,7 +29,7 @@ class Load_Model:
 
         self.abs_path = os.path.relpath("..") + "/models/"
 
-    def check_exists(self, name):
+    def checkExists(self, name):
 
         """Check if a given model exists.
            args:
@@ -40,7 +40,7 @@ class Load_Model:
         cwd = os.getcwd()
         return os.path.isdir(cwd +"/"+name)
 
-    def get_model(self, name, params=""):
+    def getModel(self, name, params=""):
         """Get the file/path of the required model. If not present, download the required
            model.
            
