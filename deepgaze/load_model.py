@@ -35,10 +35,10 @@ class LoadModel:
            args:
                
                name: Name of given model"""
-        
-        #Get current directory
+
+        # Get current directory
         cwd = os.getcwd()
-        return os.path.isdir(cwd +"/"+name)
+        return os.path.isdir(cwd + "/" + name)
 
     def getModel(self, name, params=""):
         """Get the file/path of the required model. If not present, download the required
@@ -54,31 +54,29 @@ class LoadModel:
                return_path: The path of retrieved model
                
         """
-        
-        #Check current directory
+
+        # Check current directory
         cwd = os.getcwd()
-        
+
         # Check if given model is already downloaded
         if self.check_exists(name) is False:
 
             zip_file_url = self.models[name]["Link"]
-            
+
             print("Downloading.... " + name + " model")
             r = requests.get(zip_file_url)
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(name)
-            shutil.move(name,cwd)
 
         return_path = ""
 
         # If a given subcategory of model is specified
         if params:
 
-            return_path += cwd +"/"+ name + "/" + self.models[name][params]
+            return_path += cwd + "/" + name + "/" + self.models[name][params]
 
         else:
 
-            return_path = cwd+"/"+ name
+            return_path = cwd + "/" + name
 
         return return_path
-
