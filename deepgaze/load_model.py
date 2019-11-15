@@ -59,7 +59,7 @@ class LoadModel:
         cwd = os.getcwd()
 
         # Check if given model is already downloaded
-        if self.check_exists(name) is False:
+        if self.checkExists(name) is False:
 
             zip_file_url = self.models[name]["Link"]
 
@@ -78,5 +78,7 @@ class LoadModel:
         else:
 
             return_path = cwd + "/" + name
+            
+        print("DONE")
 
         return return_path
