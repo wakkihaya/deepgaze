@@ -21,7 +21,7 @@ from operator import itemgetter
 #print(cv2.__version__)
 video_capture = cv2.VideoCapture("./video.mp4")
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter("./original.avi", fourcc, 24.0, (3840,2160))
+#out = cv2.VideoWriter("./original.avi", fourcc, 24.0, (3840,2160))
 out_harris = cv2.VideoWriter("./harris.avi", fourcc, 24.0, (3840,2160))
 out_shitomasi = cv2.VideoWriter("./shitomasi.avi", fourcc, 24.0, (3840,2160))
 out_fast = cv2.VideoWriter("./fast.avi", fourcc, 24.0, (3840,2160))
@@ -89,17 +89,17 @@ while(True):
                                   flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     #Writing in the output file
     #out.write(frame)
-    #out_harris.write(frame_harris)
-    #out_shitomasi.write(frame_shitomasi)
+    out_harris.write(frame_harris)
+    out_shitomasi.write(frame_shitomasi)
     out_fast.write(frame_fast)
-    #out_orb.write(frame_orb)
+    out_orb.write(frame_orb)
         
     #Showing the frame and waiting for the exit command
     #cv2.imshow('Original', frame) #show on window
-    #cv2.imshow('Harris', frame_harris) #show on window
-    #cv2.imshow('Shi-Tomasi', frame_shitomasi) #show on window
-    #cv2.imshow('FAST', frame_fast) #show on window
-    #cv2.imshow('ORB', frame_orb) #show on window
+    cv2.imshow('Harris', frame_harris) #show on window
+    cv2.imshow('Shi-Tomasi', frame_shitomasi) #show on window
+    cv2.imshow('FAST', frame_fast) #show on window
+    cv2.imshow('ORB', frame_orb) #show on window
     if cv2.waitKey(1) & 0xFF == ord('q'): break #Exit when Q is pressed
 
 
