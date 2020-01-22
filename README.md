@@ -153,6 +153,12 @@ Examples
 <img src="doc/images/ex_diff_motion_detection_video.png" width="750">
 </p>
 
+- Corner detection comparison of four algorithms on a video streaming [[code]](./examples/ex_corner_detection_video/ex_corner_detection.py) [[video]](https://www.youtube.com/watch?v=2fhD98K_6Ag)
+
+<p align="center">
+<img src="doc/images/ex_corner_detection.png" width="750">
+</p>
+
 - Motion detection and tracking comparison of three algorithms on a video streaming [[code]](./examples/ex_motion_detectors_comparison_video/ex_motion_detectors_comparison_video.py) [[video]](https://www.youtube.com/watch?v=XmI2kE2hUgE)
 
 <p align="center">
