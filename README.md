@@ -1,6 +1,8 @@
 Updates
 ----------
 
+**Update 22/01/2020** You may be interested in following [my new Youtube channel](https://www.youtube.com/channel/UC6AxKVw2y_b3ab-esLdK0_g) for weekly videos about *Computer Vision*, *Machine Learning*, and *Deep Learning*.
+
 **Update 14/07/2019** The work on branch 2.0 is moving forward. Deepgaze 2.0 now supports Python 3.x and both OpenCV 2.x and 3.x.
 
 **Update 12/07/2019** The preprint PDF of the article *"Head pose estimation in the wild using Convolutional Neural Networks and adaptive gradient methods"* is available for **free download** at [this address](https://pearl.plymouth.ac.uk/bitstream/handle/10026.1/9497/Patacchiola-Cangelosi-PR-postprint.pdf?sequence=3&isAllowed=n)
@@ -89,7 +91,7 @@ Some examples may require additional libraries:
 Installation
 --------
 
-Download the repository from [[here]](https://github.com/mpatacchiola/deepgaze/archive/master.zip) or clone it using git:
+Download the repository from [[here]](https://github.com/mpatacchiola/deepgaze/archive/2.0.zip) or clone it using git:
 
 ```shell
 git clone https://github.com/mpatacchiola/deepgaze.git
@@ -191,12 +193,4 @@ Acknowledgements
 - The example "head pose estimation using Perspective-n-Point" is partially based on the C++ version you can find [here](https://github.com/severin-lemaignan/gazr), and on the workshop "Developing an attention system for a social robot" which was part of the 2nd International Summer School on Social Human-Robot Interaction.
 
 - To implement the Bayes and Particle Filters I followed the great repository of [rlabbe](https://github.com/rlabbe) which you can find [here](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)
-
-
-
-
-
-
-
-
 
