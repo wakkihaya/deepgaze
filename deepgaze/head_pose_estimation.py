@@ -533,7 +533,7 @@ class CnnHeadPoseEstimator:
              image_normalised = np.add(image_resized, -127) #normalisation of the input
              feed_dict = {self.tf_roll_input_vector : image_normalised}
              roll_raw = self._sess.run([self.cnn_roll_output], feed_dict=feed_dict)
-             roll_vector = np.multiply(roll_raw, 25.0) #cnn-out is in range [-1, +1] --> [-45, + 45]
+             roll_vector = np.multiply(roll_raw, 25.0) #cnn-out is in range [-1, +1] --> [-25, +25]
              if(radians==True): return np.multiply(roll_vector, np.pi/180.0) #to radians
              else: return roll_vector
          #wrong shape
