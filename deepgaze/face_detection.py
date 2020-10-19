@@ -337,8 +337,7 @@ class HaarFaceDetector:
         """
 
         if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
-        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
-        else: raise ValueError(VERSION_ALERT)
+        else: flag = cv2.CASCADE_SCALE_IMAGE
         
         # Cascade: frontal faces
         faces = self._frontalCascade.detectMultiScale(
@@ -367,8 +366,7 @@ class HaarFaceDetector:
         """
 
         if(MAJOR=='2'): flag = cv2.cv.CV_HAAR_SCALE_IMAGE
-        elif(MAJOR=='3'): flag = cv2.CASCADE_SCALE_IMAGE
-        else: raise ValueError(VERSION_ALERT)
+        else: flag = cv2.CASCADE_SCALE_IMAGE
         
         # Cascade: left profile
         faces = self._profileCascade.detectMultiScale(

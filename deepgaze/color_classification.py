@@ -156,23 +156,19 @@ class HistogramColorClassifier:
         """
         if(method=="intersection"):
             if(MAJOR=='2'): flag = cv2.cv.CV_COMP_INTERSECT
-            elif(MAJOR=='3'): flag = cv2.HISTCMP_INTERSECT
-            else: raise ValueError(VERSION_ALERT)
+            else: flag = cv2.HISTCMP_INTERSECT
             comparison = cv2.compareHist(hist_1, hist_2, flag)
         elif(method=="correlation"):
             if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CORREL
-            elif(MAJOR=='3'): flag = cv2.HISTCMP_CORREL
-            else: raise ValueError(VERSION_ALERT)
+            else: flag = cv2.HISTCMP_CORREL
             comparison = cv2.compareHist(hist_1, hist_2, flag)
         elif(method=="chisqr"):
             if(MAJOR=='2'): flag = cv2.cv.CV_COMP_CHISQR
-            elif(MAJOR=='3'): flag = cv2.HISTCMP_CHISQR
-            else: raise ValueError(VERSION_ALERT)
+            else: flag = cv2.HISTCMP_CHISQR
             comparison = cv2.compareHist(hist_1, hist_2, flag)
         elif(method=="bhattacharyya"):
             if(MAJOR=='2'): flag = cv2.cv.CV_COMP_BHATTACHARYYA
-            elif(MAJOR=='3'): flag = cv2.HISTCMP_BHATTACHARYYA
-            else: raise ValueError(VERSION_ALERT)
+            else: flag = cv2.HISTCMP_BHATTACHARYYA
             comparison = cv2.compareHist(hist_1, hist_2, flag)
         else:
             raise ValueError('[DEEPGAZE][ERROR] color_classification.py: the method specified ' + str(method) + ' is not supported.')
