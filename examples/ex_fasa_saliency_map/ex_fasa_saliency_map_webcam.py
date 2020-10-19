@@ -29,10 +29,10 @@ def main():
     # Open the video stream and set the webcam resolution.
     # It may give problem if your webcam does not support the particular resolution used.
     video_capture = cv2.VideoCapture(0)
-    video_capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, RESOLUTION_WIDTH)
-    video_capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, RESOLUTION_HEIGHT)
-    print video_capture.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)
-    print video_capture.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)
+    video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, RESOLUTION_WIDTH)
+    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, RESOLUTION_HEIGHT)
+    print(video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+    print(video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     if(video_capture.isOpened() == False):
         print("Error: the resource is busy or unvailable")
