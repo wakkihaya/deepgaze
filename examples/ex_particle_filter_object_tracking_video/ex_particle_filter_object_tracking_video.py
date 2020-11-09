@@ -39,7 +39,7 @@ if(USE_WEBCAM == False):
 else:
     video_capture = cv2.VideoCapture(0) #Open the webcam
 # Define the codec and create VideoWriter object
-fourcc = cv2.cv.CV_FOURCC(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter("./cows_output.avi", fourcc, 25.0, (1920,1080))
 
 #Declaring the binary mask analyser object
