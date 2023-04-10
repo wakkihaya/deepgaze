@@ -3,9 +3,9 @@
 #The MIT License (MIT)
 #Copyright (c) 2016 Massimiliano Patacchiola
 #
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-#MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-#CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+#CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 #SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #In this example the Backprojection algorithm is used in order to find the pixels that have the same
@@ -18,10 +18,10 @@ import cv2
 import numpy as np
 from deepgaze.color_detection import BackProjectionColorDetector
 
-image = cv2.imread('tiger.jpg') #Load the image
+image = cv2.imread('/Users/wakkihaya/Development/Codes/ML/deepgaze/examples/ex_color_detection_image/tiger.jpg') #Load the image
 template = image[225:275,625:675] #Taking a subframe of the image
 my_back_detector = BackProjectionColorDetector()#Defining the deepgaze color detector object
-my_back_detector.setTemplate(template) #Set the template 
+my_back_detector.setTemplate(template) #Set the template
 image_filtered = my_back_detector.returnFiltered(image, morph_opening=True, blur=True, kernel_size=7, iterations=2)
 
 cv2.rectangle(image, (625, 225), (675, 275), (0,255,0), 2) #Drawing a green rectangle around the template
