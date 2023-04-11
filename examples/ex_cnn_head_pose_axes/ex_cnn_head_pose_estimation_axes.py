@@ -3,9 +3,9 @@
 #The MIT License (MIT)
 #Copyright (c) 2016 Massimiliano Patacchiola
 #
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-#MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
-#CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+#CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 #SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #In this example the Deepgaze CNN head pose estimator is used to get the YAW angle.
@@ -45,9 +45,9 @@ def yaw2rotmat(yaw):
 sess = tf.Session() #Launch the graph in a session.
 my_head_pose_estimator = CnnHeadPoseEstimator(sess) #Head pose estimation object
 # Load the weights from the configuration folders
-my_head_pose_estimator.load_yaw_variables(os.path.realpath("../../etc/tensorflow/head_pose/yaw/cnn_cccdd_30k.tf"))
-my_head_pose_estimator.load_roll_variables(os.path.realpath("../../etc/tensorflow/head_pose/roll/cnn_cccdd_30k.tf"))
-my_head_pose_estimator.load_pitch_variables(os.path.realpath("../../etc/tensorflow/head_pose/pitch/cnn_cccdd_30k.tf"))
+my_head_pose_estimator.load_yaw_variables('/Users/wakkihaya/Development/Codes/ML/deepgaze/etc/tensorflow/head_pose/yaw/cnn_cccdd_30k.tf')
+my_head_pose_estimator.load_roll_variables('/Users/wakkihaya/Development/Codes/ML/deepgaze/etc/tensorflow/head_pose/roll/cnn_cccdd_30k.tf')
+my_head_pose_estimator.load_pitch_variables('/Users/wakkihaya/Development/Codes/ML/deepgaze/etc/tensorflow/head_pose/pitch/cnn_cccdd_30k.tf')
 
 for i in range(1,9):
     file_name = str(i) + ".jpg"
@@ -62,14 +62,14 @@ for i in range(1,9):
     f_x = c_x / np.tan(60/2 * np.pi / 180)
     f_y = f_x
     camera_matrix = np.float32([[f_x, 0.0, c_x],
-                                [0.0, f_y, c_y], 
+                                [0.0, f_y, c_y],
                                 [0.0, 0.0, 1.0] ])
     print("Estimated camera matrix: \n" + str(camera_matrix) + "\n")
     #Distortion coefficients
     camera_distortion = np.float32([0.0, 0.0, 0.0, 0.0, 0.0])
     #Defining the axes
-    axis = np.float32([[0.0, 0.0, 0.0], 
-                       [0.0, 0.0, 0.0], 
+    axis = np.float32([[0.0, 0.0, 0.0],
+                       [0.0, 0.0, 0.0],
                        [0.0, 0.0, 0.5]])
 
     roll_degree = my_head_pose_estimator.return_roll(image, radians=False)  # Evaluate the roll angle using a CNN
@@ -100,5 +100,3 @@ for i in range(1,9):
     cv2.circle(image, p_start, 1, (0,255,0), 3) #GREEN
 
     cv2.imwrite(file_save, image)
-
-
